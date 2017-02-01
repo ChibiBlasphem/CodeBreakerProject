@@ -16,13 +16,12 @@ function guess() {
 
     if (getResults(input.value, answer.value)) {
         setMessage('You Win! :)');
-        showAnswer(answer.value, true);
+        showAnswer(true);
         showReplay();
     } else {
-        console.log(attempt.value);
         if (Number(attempt.value) === 10) {
             setMessage('You Lose! :(');
-            showAnswer(answer.value, false);
+            showAnswer(false);
             showReplay();
         } else {
             setMessage('Incorrect, try again.');
@@ -43,7 +42,7 @@ function padValue(value, n) {
 }
 
 //implement new functions here
-function setHiddenFields(answer, attempt) {
+function setHiddenFields() {
     answer.value = padValue(calcRandomValue(), 4);
     attempt.value = 0;
 }
@@ -57,7 +56,8 @@ function validateInput(value) {
     else return (setMessage('Guesses must be exactly 4 characters long.'), false);
 }
 
-function getResults(value, code) {
+function getResults(value) {
+    let code = answer.value;
     let charCount = [...value].reduce((ac, c, i) => (ac += (c === code.charAt(i) ? 1 : 0), ac), 0);
     if (charCount != code.length) {
         return false;
@@ -65,9 +65,9 @@ function getResults(value, code) {
     return true;
 }
 
-function showAnswer(code, isWin) {
+function showAnswer(isWin) {
     let label = document.querySelector('#code strong');
-    label.innerHTML = code;
+    label.innerHTML = answer.value;
     label.classList.add(isWin ? 'success' : 'failure');
 }
 
